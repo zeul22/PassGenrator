@@ -1,9 +1,14 @@
-import React from 'react'
+import React from "react";
 
 const Home = () => {
   return (
-    <div>Home</div>
-  )
-}
+    <>
+      <div className=" py-2 bg-slate-200 text-white flex justify-center">
+        
+      </div>
+    </>
+  );
+};
 
-export default Home
+export default Home;
+ 
