@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-
-
+// import ReCaptcha from "./ReCaptcha";
+import ReCAPTCHA from "react-google-recaptcha";
 const Contact = () => {
- 
   const defaultContactFormData = {
     email: "",
     subject: "",
@@ -12,6 +11,19 @@ const Contact = () => {
 
   const [data, setData] = useState(defaultContactFormData);
   const [fieldsFilled, setFieldsFilled] = useState(false);
+  const [token, setToken] = useState("");
+  const [submit, setSubmit] = useState(false);
+  const [captchaValue, setCaptchaValue] = useState("");
+
+  const handleCaptchaChange = (value) => {
+    setCaptchaValue(value);
+  };
+
+  useEffect(() => {
+    if (token.length) {
+      setSubmit(true);
+    }
+  }, []);
 
   const handleDataChange = (name) => (e) => {
     setData({
@@ -28,22 +40,33 @@ const Contact = () => {
 
   const SubmitContact = async (e) => {
     e.preventDefault();
-
-    try {
-      const response = await axios.post(
-        "http://localhost:8080/contact/submit",
-        data
-      );
-      console.log(response.data);
-      if (response.data) {
-        // sendEmailNotification(emai, message, subject);
-        setData(defaultContactFormData);
-        alert("Thank you for reaching out!");
+    if (
+      captchaValue &&
+      data.name != "" &&
+      data.email != "" &&
+      data.message != ""
+    ) {
+      try {
+        const response = await axios.post(
+          "http://localhost:8080/contact/submit",
+          data
+        );
+        console.log(response.data);
+        if (response.data) {
+          setData(defaultContactFormData);
+          alert("Thank you for reaching out!");
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
+    } else {
+      alert("Please complete the whole procedure");
     }
   };
+
+  // const handleToken = (toekn) => {
+  //   setToken(token);
+  // };
 
   return (
     <>
@@ -79,12 +102,23 @@ const Contact = () => {
               placeholder="Enter the message"
             />
           </div>
+          <div className="flex justify-center">
+            <ReCAPTCHA
+              sitekey={`${import.meta.env.VITE_APP_RECAPTCHA_URL}`}
+              onChange={handleCaptchaChange}
+            />
+          </div>
           <div className="flex justify-center ">
             <button
               type="submit"
-              disabled={!fieldsFilled}
-              className=" bg-gray-600 px-6 py-4 my-4 rounded-lg transition duration-200
-           cursor-pointer hover:bg-gray-800 hover:text-white"
+              disabled={!fieldsFilled && !captchaValue}
+              className={`bg-gray-100 px-6 py-4 my-4 rounded-lg transition duration-200
+           cursor-pointer hover:bg-gray-300
+            hover:text-white ${
+              captchaValue && fieldsFilled
+                ? "bg-gray-600 hover:bg-gray-700"
+                : "cursor-not-allowed bg-gray-100"
+            }`}
             >
               Submit
             </button>
