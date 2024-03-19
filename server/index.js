@@ -1,20 +1,21 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import connectDB from "./db/dbconfig.js";
+import { app } from "./app.js";
 
 dotenv.config({
   path: "./.env",
 });
+
+// console.log(process.env.EMAIL);
 const port = process.env.PORT;
-console.log(port)
-const app = express();
-app.use(cors());
-
-app.get("/c",(req,res)=>{
-    console.log("Working great")
-    res.send("hello")
-})
-
-app.listen(port, () => {
-  console.log(`Server running on PORT ${port}`);
-});
+connectDB()
+  .then(() => {
+    app.listen(port || 8080, () => {
+      console.log(`Server running on ${port}`);
+    });
+  })
+  .catch((err) => {
+    console.log(`Server connection failed :${err}`);
+  });

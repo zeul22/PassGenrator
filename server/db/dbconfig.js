@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 import { DB_NAME } from "../constants.js";
 
-
 // desired level of consistency, durability, and acknowledgment from the database server.
 
 const options = {
@@ -12,10 +11,20 @@ const options = {
   },
 };
 
-const connectDB=async()=>{
-    try{
-        const connectionInstance=await mongoose.connect(
-            `${process.env.DB_URL}`
-        ) 
-    }
-}
+const connectDB = async () => {
+  try {
+    const connectionInstance = await mongoose.connect(
+      `${process.env.DB_URL}?dbname=${DB_NAME}`,
+      options
+    );
+    console.log(
+      `\n MongoDB connected, DB HOST: ${connectionInstance.connection.host}`
+    );
+  } catch (error) {
+    console.log("MongoDB Connection failed ", error);
+    process.exit(1);
+  }
+};
+
+export default connectDB;
+
