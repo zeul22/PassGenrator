@@ -5,11 +5,9 @@ import connectDB from "./db/dbconfig.js";
 import { app } from "./app.js";
 
 dotenv.config({
-  path: "./.env",
+  path: "../.env",
 });
 
-// console.log(process.env.EMAIL);
-const port = process.env.PORT;
 connectDB()
   .then(() => {
     app.listen(port || 8080, () => {
