@@ -5,6 +5,7 @@ import Generator from "./Components/Generator.jsx";
 import About from "./Components/About.jsx";
 import Contact from "./Components/Contact.jsx";
 import Login from "./Components/Login.jsx";
+import Signup from "./Components/Signup.jsx";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/a" element={<About />} />
         <Route path="/c" element={<Contact />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
       </Routes>
     </Router>
   );

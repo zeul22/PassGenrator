@@ -11,19 +11,19 @@ const Contact = () => {
 
   const [data, setData] = useState(defaultContactFormData);
   const [fieldsFilled, setFieldsFilled] = useState(false);
-  const [token, setToken] = useState("");
-  const [submit, setSubmit] = useState(false);
   const [captchaValue, setCaptchaValue] = useState("");
+  // const [token, setToken] = useState("");
+  // const [submit, setSubmit] = useState(false);
 
   const handleCaptchaChange = (value) => {
     setCaptchaValue(value);
   };
 
-  useEffect(() => {
-    if (token.length) {
-      setSubmit(true);
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (token.length) {
+  //     setSubmit(true);
+  //   }
+  // }, []);
 
   const handleDataChange = (name) => (e) => {
     setData({
@@ -48,7 +48,7 @@ const Contact = () => {
     ) {
       try {
         const response = await axios.post(
-          "http://localhost:8080/contact/submit",
+          `${import.meta.env.VITE_APP_FETCH_URL}/contact/submit`,
           data
         );
         console.log(response.data);

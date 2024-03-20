@@ -3,9 +3,12 @@ client/node_modules/
 server/node_modules/
 
 # Ignore .env files in both client and server directories
+**/client/*.env
+**/server/*.env
 client/.env
 server/.env
-.env
+
+*.env
 # Ignore any log files
 *.log
 
