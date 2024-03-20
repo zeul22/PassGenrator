@@ -7,36 +7,51 @@ dotenv.config({
   path: "../../.env",
 });
 
-const userSchema = new Schema({
-  username: {
-    type: String,
-    required: true,
-    unique: true,
-    lowercase: true,
-    trim: true,
-    index: true,
+const userSchema = new Schema(
+  {
+    username: {
+      type: String,
+      required: true,
+      unique: true,
+      lowercase: true,
+      trim: true,
+      index: true,
+    },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      lowecase: true,
+      trim: true,
+    },
+    fname: {
+      type: String,
+      required: true,
+      trim: true,
+      index: true,
+    },
+    lname: {
+      type: String,
+      required: true,
+      trim: true,
+      index: true,
+    },
+    password: {
+      type: String,
+      required: [true, "Password is required"],
+    },
+    refreshToken: {
+      type: String,
+    },
+    isAdmin: {
+      type: Boolean,
+      default: false,
+    },
   },
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-    lowecase: true,
-    trim: true,
-  },
-  fname: {
-    type: String,
-    required: true,
-    trim: true,
-    index: true,
-  },
-  password: {
-    type: String,
-    required: [true, "Password is required"],
-  },
-  refreshToken: {
-    type: String,
-  },
-});
+  {
+    timestamps: true,
+  }
+);
 
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
@@ -55,7 +70,8 @@ userSchema.methods.generateAccessToken = function () {
       _id: this._id,
       email: this.email,
       username: this.username,
-      fullName: this.fullName,
+      fname: this.fname,
+      lname: this.lname,
     },
     process.env.ACCESS_TOKEN_SECRET,
     {

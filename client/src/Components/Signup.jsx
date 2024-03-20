@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import ReCAPTCHA from "react-google-recaptcha";
+import axios from "axios";
 
 const Signup = () => {
   const default_data = {
@@ -12,7 +13,7 @@ const Signup = () => {
   };
   const [data, setData] = useState(default_data);
   const [fieldsFilled, setFieldsFilled] = useState(false);
-  const [captchaValue, setCaptchaValue] = useState("");
+  const [captchaValue, setCaptchaValue] = useState("asdasd");
 
   const handleCaptchaChange = (value) => {
     setCaptchaValue(value);
@@ -46,10 +47,11 @@ const Signup = () => {
       data.email != ""
     ) {
       try {
-        console.log(data);
+        // console.log(data);
 
         const response = await axios.post(
-          `${import.meta.env.VITE_APP_URL}/signup/`,
+          `${import.meta.env.VITE_APP_FETCH_URL}/users/signup`,
+          // "http://localhost:8080/users/signup",
           data
         );
         console.log(response.data);
@@ -118,14 +120,15 @@ const Signup = () => {
             type="password"
             placeholder="Password"
           />
-          <div className="flex justify-center">
+          {/* <div className="flex justify-center">
             <ReCAPTCHA
               sitekey={`${import.meta.env.VITE_APP_RECAPTCHA_URL}`}
               onChange={handleCaptchaChange}
             />
-          </div>
+          </div> */}
           <button
             disabled={!fieldsFilled && !captchaValue}
+            type="submit"
             className="px-12 py-4 flex justify-center my-4 bg-transparent 
           focus:outline-none border focus:border-transparent rounded-lg hover:bg-gray-500 transition duration-200 hover:text-white 
           hover:outline-non hover:border-transparent"

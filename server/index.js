@@ -1,5 +1,3 @@
-import express from "express";
-import cors from "cors";
 import dotenv from "dotenv";
 import connectDB from "./db/dbconfig.js";
 import { app } from "./app.js";
@@ -7,6 +5,9 @@ import { app } from "./app.js";
 dotenv.config({
   path: "../.env",
 });
+
+const port = process.env.PORT;
+
 
 connectDB()
   .then(() => {

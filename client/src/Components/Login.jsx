@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 const Login = () => {
   const default_data = {
     username: "",
@@ -27,7 +28,7 @@ const Login = () => {
         console.log(data.username, data.password);
 
         const response = await axios.post(
-          `${import.meta.env.VITE_APP_URL}/login`,
+          `${import.meta.env.VITE_APP_FETCH_URL}/users/login`,
           data
         );
         console.log(response.data);
@@ -57,7 +58,7 @@ const Login = () => {
             type="text"
             value={data.username}
             onChange={handleDataChange("username")}
-            placeholder="Username"
+            placeholder="Username / Email"
           />
           <input
             value={data.password}
@@ -70,6 +71,7 @@ const Login = () => {
           />
           <button
             disabled={!fieldsFilled}
+            type="submit"
             className="px-12 py-4 flex justify-center my-4 bg-transparent 
           focus:outline-none border focus:border-transparent rounded-lg hover:bg-gray-500 transition duration-200 hover:text-white 
           hover:outline-non hover:border-transparent"
