@@ -1,13 +1,18 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
+// import axios from "axios";
+import { useAuth } from "../store/auth";
+
 const Login = () => {
   const default_data = {
     username: "",
     password: "",
   };
+  const { storeToken } = useAuth();
   const [data, setData] = useState(default_data);
   const [fieldsFilled, setFieldsFilled] = useState(false);
+  const navigate = useNavigate();
+  const [isClick, setClick] = useState(false);
 
   const handleDataChange = (name) => (e) => {
     setData({
@@ -22,27 +27,61 @@ const Login = () => {
   };
 
   const SubmitContact = async (e) => {
+    const fetchOptions = {
+      method: "POST", // Specify the HTTP method as 'POST'
+      headers: {
+        "Content-Type": "application/json", // Set the content type to JSON
+      },
+      body: JSON.stringify(data), // Convert the data object to a JSON string
+    };
+
     e.preventDefault();
     if (data.username != "" && data.password != "") {
-      try {
-        console.log(data.username, data.password);
+      // try {
+      //   console.log(data.username, data.password);
 
-        const response = await axios.post(
-          `${import.meta.env.VITE_APP_FETCH_URL}/users/login`,
-          data
-        );
-        console.log(response.data);
-        if (response.data) {
+      //   const response = await axios.post(
+      //     `${import.meta.env.VITE_APP_FETCH_URL}/users/login`,
+      //     data
+      //   );
+
+      //   console.log(response.data);
+      //   console.log(response.ok);
+      //   if (response.data) {
+      //     const res_data = await response.json();
+      //     console.log(res_data);
+      //     setData(default_data);
+      //     alert("Login Successful!");
+      //     navigate("/gen");
+      //   }
+      // } catch (error) {
+      //   alert("User does not exist!");
+      //   console.log(error);
+      // }
+
+      fetch(`${import.meta.env.VITE_APP_FETCH_URL}/users/login`, fetchOptions)
+        .then((response) => {
+          if (!response.ok) {
+            setClick((isClick) => !isClick);
+            throw new Error("Wrong Password");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          // console.log(data.data);
+          // console.log(data.data.accessToken);
+          storeToken(data.data.accessToken);
           setData(default_data);
-          alert("Login Successful!");
-        }
-      } catch (error) {
-        console.log(error);
-      }
+          navigate("/gen");
+        })
+        .catch((error) => {
+          console.error("Fetching Error: ", error);
+        });
     } else {
       alert("Please complete the whole procedure");
     }
   };
+  
 
   return (
     <>
@@ -69,6 +108,15 @@ const Login = () => {
             type="password"
             placeholder="Password"
           />
+          <div>
+            {isClick ? (
+              <span className="text-red-600 text-sm">
+                User / Password not correct
+              </span>
+            ) : (
+              <span></span>
+            )}
+          </div>
           <button
             disabled={!fieldsFilled}
             type="submit"

@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ReCAPTCHA from "react-google-recaptcha";
 import axios from "axios";
-
 const Signup = () => {
   const default_data = {
     fname: "",
@@ -13,7 +12,8 @@ const Signup = () => {
   };
   const [data, setData] = useState(default_data);
   const [fieldsFilled, setFieldsFilled] = useState(false);
-  const [captchaValue, setCaptchaValue] = useState("asdasd");
+  const [captchaValue, setCaptchaValue] = useState("");
+  const navigate = useNavigate();
 
   const handleCaptchaChange = (value) => {
     setCaptchaValue(value);
@@ -58,6 +58,7 @@ const Signup = () => {
         if (response.data) {
           setData(default_data);
           alert("Signup Successful!");
+          navigate("/login");
         }
       } catch (error) {
         console.log(error);
@@ -120,12 +121,12 @@ const Signup = () => {
             type="password"
             placeholder="Password"
           />
-          {/* <div className="flex justify-center">
+          <div className="flex justify-center">
             <ReCAPTCHA
               sitekey={`${import.meta.env.VITE_APP_RECAPTCHA_URL}`}
               onChange={handleCaptchaChange}
             />
-          </div> */}
+          </div>
           <button
             disabled={!fieldsFilled && !captchaValue}
             type="submit"
