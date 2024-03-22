@@ -25,6 +25,24 @@ const Login = () => {
       setFieldsFilled(fieldsFilled);
     }
   };
+  const handleGoogleLogin = async () => {
+    window.location.href = "/auth/google"; // Redirect to Google OAuth authentication
+    const response = await fetch(
+      `${import.meta.env.VITE_APP_FETCH_URL}/users/login`,
+      {
+        method: "GET",
+        headers: "application/json",
+      }
+    );
+  };
+
+  const handleLinkedInLogin = async () => {
+    window.location.href = "/auth/linkedin"; // Redirect to LinkedIn OAuth authentication
+  };
+
+  const handleGitHubLogin = async () => {
+    window.location.href = "/auth/github"; // Redirect to GitHub OAuth authentication
+  };
 
   const SubmitContact = async (e) => {
     const fetchOptions = {
@@ -81,7 +99,6 @@ const Login = () => {
       alert("Please complete the whole procedure");
     }
   };
-  
 
   return (
     <>
@@ -136,6 +153,34 @@ const Login = () => {
             </Link>
           </div>
         </form>
+        <div className=" w-full flex justify-center items-center mx-1 p-3">
+          <hr className="h-1/2 w-full bg-black" />
+          <div className="p-3 text-white">Or</div>
+          <hr className="h-1/2 w-full bg-black" />
+        </div>
+        <div className="flex justify-evenly">
+          <button
+            type="submit"
+            onClick={handleGoogleLogin}
+            className="bg-gray-100 hover:bg-gray-300 transition duration-200 p-6 mr-2 rounded-full"
+          >
+            G
+          </button>
+          <button
+            type="submit"
+            onClick={handleGitHubLogin}
+            className="bg-gray-100 hover:bg-gray-300 transition duration-200 p-6 mr-2 rounded-full"
+          >
+            G
+          </button>
+          <button
+            type="submit"
+            onClick={handleLinkedInLogin}
+            className="bg-gray-100 hover:bg-gray-300 transition duration-200 p-6 rounded-full"
+          >
+            L
+          </button>
+        </div>
       </div>
     </>
   );
