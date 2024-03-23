@@ -5,7 +5,7 @@ class ApiError {
     errors = [],
     stack = ""
   ) {
-    super(message);
+    // super(message);
     this.data = null;
     this.status = status;
     this.message = message;
