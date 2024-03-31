@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../store/auth";
+import { useAuth } from "../store/auth"; //can update & use Redux here
 
 const Generator = () => {
   // Variables

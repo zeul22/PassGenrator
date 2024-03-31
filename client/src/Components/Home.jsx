@@ -29,7 +29,7 @@ const Home = () => {
               className="bg-red-300 p-4 rounded-2xl hover:text-white my-2
                hover:bg-red-400 transition duration-200 hover:cursor-pointer"
             >
-              <Link to={"/chat"}>Chat Application</Link>
+              <Link to={"/chatapp"}>Chat Application</Link>
             </div>
             <div
               className="bg-red-300 p-4 rounded-2xl hover:text-white my-2

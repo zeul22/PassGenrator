@@ -15,7 +15,7 @@ import DashboardHome from "./Components/Dashboard/DashboardHome.jsx";
 import DashboardAnalyitcs from "./Components/Dashboard/DashboardAnalyitcs.jsx";
 import DashboardKPI from "./Components/Dashboard/DashboardKPI.jsx";
 import DashboardMarket from "./Components/Dashboard/DashboardMarket.jsx";
-
+import Chatapp from "./Components/ChatApp/Chatapp.jsx"
 function App() {
   return (
     <Router>
@@ -49,6 +49,20 @@ function App() {
                 <Route path="/analytics" element={<DashboardAnalyitcs />} />
                 <Route path="/market" element={<DashboardMarket />} />
                 <Route path="/kpis" element={<DashboardKPI />} />
+              </Routes>
+            </>
+          }
+        />
+
+        {/* Chatapp */}
+
+        {/* Dashboard */}
+        <Route
+          path="/chatapp/*"
+          element={
+            <>
+              <Routes>
+                <Route path="/" element={<Chatapp />} />
               </Routes>
             </>
           }
