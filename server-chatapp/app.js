@@ -12,11 +12,14 @@ app.use(
     origin: process.env.CORS_ORIGIN,
   })
 );
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ limit: "16kb", extended: true }));
 
 // routes
-import chatappRoutes from "./routes/chatapp.routes.js";
-app.use("/chatapp", chatappRoutes);
+import messageRoutes from "./routes/message.routes.js";
+import cookieParser from "cookie-parser";
+
+app.use("/messages", messageRoutes);
 
 export { app };

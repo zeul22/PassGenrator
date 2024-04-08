@@ -10,7 +10,7 @@ import { verifyJWT } from "../middlewares/auth.middleware.js";
 const router = Router();
 
 router.route("/submit").post(contactpageRegistration);
-router.route("/getall").get(getallContacts);
+router.route("/getall").get(verifyJWT,getallContacts);
 router.route("/update").put(updateNoti);
 
 export default router;

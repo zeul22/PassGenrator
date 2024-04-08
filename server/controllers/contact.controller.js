@@ -62,6 +62,8 @@ const contactpageRegistration = asyncHandler(async (req, res) => {
 });
 
 const getallContacts = asyncHandler(async (req, res) => {
+  const id =req.user._id;
+  console.log("Request User ka ID : ",id);
   const users = await Contact.find({ sentNotification: false });
   //   console.log(users);
   return res
