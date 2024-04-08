@@ -90,7 +90,7 @@ const Login = () => {
           // console.log(data.data.accessToken);
           storeToken(data.data.accessToken);
           setData(default_data);
-          navigate("/gen");
+          navigate("/");
         })
         .catch((error) => {
           console.error("Fetching Error: ", error);

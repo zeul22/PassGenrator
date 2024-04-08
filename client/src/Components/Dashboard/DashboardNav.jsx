@@ -1,7 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../store/auth.jsx"; //can update & use Redux here
 
 const DashboardNav = () => {
+  const { isloggedin } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!isloggedin) {
+      navigate("/login");
+    }
+  }, [isloggedin]);
+
   return (
     <>
       <div className="bg-gray-300 w-full mx-auto max-w-lg  rounded items-center h-auto">
