@@ -21,7 +21,7 @@ import contactPageRouter from "./routes/contactPage.routes.js";
 import userRouter from "./routes/user.routes.js";
 import passport from "passport";
 import authRoutes from "./routes/oauth.routes.js";
-
+import messageRoutes from "./routes/message.routes.js";
 
 app.use("/contact", contactPageRouter);
 
@@ -30,5 +30,8 @@ app.use("/users", userRouter);
 
 // Oauth
 app.use("/login", authRoutes);
+
+// ChatApp
+app.use("/messages", messageRoutes);
 
 export { app };

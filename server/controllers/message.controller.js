@@ -1,7 +1,8 @@
-import { Conversation } from "../models/conversation.model.js";
-import { Message } from "../models/message.model.js";
-import ApiError from "../utils/ApiError.js";
-import { asyncHandler } from "../utils/asyncHandler.js";
+import { User } from "../models/User.model.js";
+import { Conversation } from "../models/Conversation.model.js";
+import { Message } from "../models/Message.model.js";
+import ApiError from "../../server-chatapp/utils/ApiError.js";
+import { asyncHandler } from "../../server-chatapp/utils/asyncHandler.js";
 
 const sendMessage = asyncHandler(async (req, res) => {
   try {
@@ -66,4 +67,19 @@ const getMessage = asyncHandler(async (req, res) => {
   }
 });
 
-export { sendMessage, getMessage };
+const getUsers = asyncHandler(async (req, res) => {
+  try {
+    const currentUserId = req.user._id;
+    const allUsers = await User.find({
+      _id: {
+        $ne: currentUserId,
+      },
+    });
+    res.status(200).json(allUsers);
+  } catch (error) {
+    console.log(error.message);
+    throw new ApiError(403, "Internal Server Error");
+  }
+});
+
+export { sendMessage, getMessage, getUsers };
