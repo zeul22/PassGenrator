@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../store/auth";
 const Nav = () => {
-  const { isloggedin } = useAuth();
+  const { isloggedin, setToken } = useAuth();
   // console.log("value :",isloggedin);
 
   return (
@@ -29,7 +29,17 @@ const Nav = () => {
             </div>
           ) : (
             <div className="bg-red-400 px-2 mx-3  rounded-3xl  ">
-              <Link to="/logout">Logout</Link>
+              <Link to="/logout">
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setToken(null);
+                    localStorage.removeItem('accessToken')
+                  }}
+                >
+                  Logout
+                </button>
+              </Link>
             </div>
           )}
         </div>
