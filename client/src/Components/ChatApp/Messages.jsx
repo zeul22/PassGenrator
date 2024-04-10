@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import Message from "./Message.jsx";
 import useGetMessages from "../../hooks/useGetMessages.js";
 import MessageLoading from "./MessageLoading.jsx";
@@ -6,6 +6,13 @@ import MessageLoading from "./MessageLoading.jsx";
 const Messages = () => {
   const { messages, loading } = useGetMessages();
   // console.log(messages);
+  const lastMessage = useRef();
+  useEffect(() => {
+    setTimeout(() => {
+      lastMessage.current?.scrollIntoView({ behavior: "smooth" });
+    }, 100);
+  }, [messages]);
+
   return (
     <div className="px-4 flex-1 overflow-auto">
       {loading && <MessageLoading />}
@@ -15,12 +22,13 @@ const Messages = () => {
           Send a message to network with peers!
         </p>
       )}
-      {!loading && messages.length > 0 &&
+      {!loading &&
+        messages.length > 0 &&
         messages.map((message) => (
-          // console.log(message._id, message.message);
-          <Message key={message._id} message={message} />
-        ))
-     }
+          <div key={message._id} ref={lastMessage}>
+            <Message message={message} />
+          </div>
+        ))}
     </div>
   );
 };

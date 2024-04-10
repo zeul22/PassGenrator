@@ -14,7 +14,10 @@ const Chatapp = () => {
   }, [isloggedin]);
 
   return (
-    <div className="p-4 h-screen flex items-center justify-center">
+    <div className="p-4 h-screen flex flex-col items-center justify-center bg-black">
+        <div className="flex flex-col">
+          <h1 className="text-white text-3xl mb-2 p-2">CHAT APPLICATION</h1>
+        </div>
         <Home />
     </div>
   );
