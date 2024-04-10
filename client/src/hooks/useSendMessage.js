@@ -6,7 +6,6 @@ const useSendMessage = () => {
   const [loading, setLoading] = useState(false);
   const { messages, setMessages, selectedConversation } = useConversation();
   const { token } = useAuth();
-
   const sendMessage = async (message) => {
     setLoading(true);
     try {

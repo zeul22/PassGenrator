@@ -3,6 +3,7 @@ import { Conversation } from "../models/Conversation.model.js";
 import { Message } from "../models/Message.model.js";
 import ApiError from "../../server-chatapp/utils/ApiError.js";
 import { asyncHandler } from "../../server-chatapp/utils/asyncHandler.js";
+import { getReceiverSocketId, io } from "../app.js";
 
 const sendMessage = asyncHandler(async (req, res) => {
   try {
@@ -39,6 +40,12 @@ const sendMessage = asyncHandler(async (req, res) => {
 
     //Run this as it runs parallely and thus faster
     await Promise.all([conversation.save(), newMessage.save()]);
+
+    // -------------- SOCKET FUNCTIONALITY
+    const receiverSocketId = getReceiverSocketId(receiverId);
+    if (receiverSocketId) {
+      io.to(receiverSocketId).emit("newMessage", newMessage);
+    }
 
     res.status(200).json(newMessage);
   } catch (error) {

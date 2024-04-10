@@ -7,10 +7,10 @@ const Message = ({ message }) => {
   const { authUser } = useAuth();
   const self_ = message.senderId === authUser;
   const formattedTime = extractTime(message.createdAt);
-  console.log("are those values same? :", self_);
-  console.log("Sending to: ", message.senderId);
-  console.log("Loggied in id: ", authUser);
-  console.log(message.createdAt);
+  // console.log("are those values same? :", self_);
+  // console.log("Sending to: ", message.senderId);
+  // console.log("Loggied in id: ", authUser);
+  // console.log(message.createdAt);
   return (
     <>
       {!self_ ? (

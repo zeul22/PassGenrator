@@ -88,7 +88,7 @@ const Login = () => {
         .then((data) => {
           setToken(data.data.accessToken);
           setauthUser(data.data.user._id.trim());
-          alert(data.data.user._id.trim());
+          // alert(data.data.user._id.trim());
           localStorage.setItem("accessToken", data.data.accessToken);
           localStorage.setItem("authUser", data.data.user._id.trim());
           setData(default_data);

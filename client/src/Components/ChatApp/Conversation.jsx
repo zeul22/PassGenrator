@@ -1,11 +1,14 @@
 import React from "react";
 import useConversation from "../../zustand/useConversation";
+import { useSocketContext } from "../../context/socket";
 
 const Conversation = ({ conversation, lastIdx }) => {
   const { selectedConversation, setSelectedConversation } = useConversation();
 
   const isSelected = selectedConversation?._id === conversation._id;
-  console.log(isSelected);
+  // console.log(isSelected);
+  const { onlineUsers } = useSocketContext();
+  const isOnline = onlineUsers.includes(conversation._id);
   return (
     <>
       <div
@@ -27,7 +30,14 @@ const Conversation = ({ conversation, lastIdx }) => {
             <p className="font-bold text-gray-500 text-xl hover:text-white">
               {conversation.lname} {conversation.fname}
             </p>
-            <span className="text-xl"></span>
+            {isOnline && (
+              <span
+                className={`text-xl 
+             ${isSelected ? "bg-green-500 text-white px-2" : "text-green-500"}`}
+              >
+                Online
+              </span>
+            )}
           </div>
         </div>
       </div>

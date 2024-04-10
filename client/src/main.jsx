@@ -4,9 +4,12 @@ import App from "./App.jsx";
 import "./index.css";
 import { BrowserRouter } from "react-router-dom";
 import { AuthProvider } from "./store/auth.jsx";
+import { SocketContextProvider } from "./context/socket.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <AuthProvider>
-    <App />
+    <SocketContextProvider>
+      <App />
+    </SocketContextProvider>
   </AuthProvider>
 );

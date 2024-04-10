@@ -5,7 +5,7 @@ import useConversation from "../../zustand/useConversation.js";
 
 const Conversations = () => {
   const { loading, conversations } = useGetConversations();
-  console.log("Conversation happening:", conversations);
+  // console.log("Conversation happening:", conversations);
   
   return (
     <div className="py-2 flex flex-col overflow-auto">
