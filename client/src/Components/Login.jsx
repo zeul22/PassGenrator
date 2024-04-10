@@ -8,7 +8,7 @@ const Login = () => {
     username: "",
     password: "",
   };
-  const { token, setToken } = useAuth();
+  const { token, setToken, setauthUser } = useAuth();
   const [data, setData] = useState(default_data);
   const [fieldsFilled, setFieldsFilled] = useState(false);
   const navigate = useNavigate();
@@ -86,11 +86,11 @@ const Login = () => {
           return response.json();
         })
         .then((data) => {
-          // console.log(data.data);
-          // console.log(data.data.accessToken);
-          // storeToken(data.data.accessToken);
           setToken(data.data.accessToken);
+          setauthUser(data.data.user._id.trim());
+          alert(data.data.user._id.trim());
           localStorage.setItem("accessToken", data.data.accessToken);
+          localStorage.setItem("authUser", data.data.user._id.trim());
           setData(default_data);
           navigate("/");
         })
@@ -107,7 +107,7 @@ const Login = () => {
       {token ? (
         <div className="mx-auto w-full max-w-lg flex h-screen justify-center items-center">
           <h1 className="text-3xl font-bold">You Have Already Logged In!</h1>
-        </div>        
+        </div>
       ) : (
         <div className="w-full max-w-sm h-auto mx-auto my-12 bg-red-300 p-8 rounded-2xl ">
           <form

@@ -4,11 +4,11 @@ const SearchInput = () => {
   return (
     <form className='flex items-center gap-2  bg-gray-800 p-2 rounded-full'>
         <input 
+        className='bg-gray-800 px-2 border-none outline-none'
         type="text"
         placeholder='Search' 
-        className='bg-gray-800 px-2'
          />
-        <button type="submit" className='bg-red-500 p-3 rounded-full text-white'>
+        <button type="submit" className='bg-red-500 p-3 rounded-full  text-white'>
         <IoSearch />
         </button>
     </form>

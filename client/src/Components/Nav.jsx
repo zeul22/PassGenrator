@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../store/auth";
 const Nav = () => {
-  const { isloggedin, setToken } = useAuth();
+  const { isloggedin, setToken, setauthUser } = useAuth();
   // console.log("value :",isloggedin);
 
   return (
@@ -34,7 +34,9 @@ const Nav = () => {
                   onClick={(e) => {
                     e.preventDefault();
                     setToken(null);
-                    localStorage.removeItem('accessToken')
+                    setauthUser(null);
+                    localStorage.removeItem("accessToken");
+                    localStorage.removeItem("authUser");
                   }}
                 >
                   Logout

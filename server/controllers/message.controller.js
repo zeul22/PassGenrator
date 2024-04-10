@@ -40,7 +40,7 @@ const sendMessage = asyncHandler(async (req, res) => {
     //Run this as it runs parallely and thus faster
     await Promise.all([conversation.save(), newMessage.save()]);
 
-    res.status(400).json(newMessage);
+    res.status(200).json(newMessage);
   } catch (error) {
     console.log(error.message);
     throw new ApiError(401, "Internal Server Error");
