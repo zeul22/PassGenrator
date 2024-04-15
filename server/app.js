@@ -10,8 +10,6 @@ import { cors_orgin } from "./constants.js";
 
 //---------------------------------------- SOCKET
 
-
-
 const app = express();
 
 const server = http.createServer(app);
@@ -64,6 +62,7 @@ import userRouter from "./routes/user.routes.js";
 import passport from "passport";
 import authRoutes from "./routes/oauth.routes.js";
 import messageRoutes from "./routes/message.routes.js";
+import dashboardRoutes from "./routes/dashboard.routes.js";
 
 app.use("/contact", contactPageRouter);
 
@@ -76,4 +75,7 @@ app.use("/login", authRoutes);
 // ChatApp
 app.use("/messages", messageRoutes);
 
-export { app,server,io };
+// Dashboard
+app.use("/dashboard", dashboardRoutes);
+
+export { app, server, io };

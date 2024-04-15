@@ -6,6 +6,7 @@ import { useAuth } from "../../store/auth.jsx"; //can update & use Redux here
 const DashboardNav = () => {
   const { isloggedin } = useAuth();
   const navigate = useNavigate();
+  const isadmin=true;
 
   useEffect(() => {
     if (!isloggedin) {
@@ -15,7 +16,7 @@ const DashboardNav = () => {
 
   return (
     <>
-      <div className="bg-gray-300 w-full mx-auto max-w-lg  rounded items-center h-auto">
+      <div className="bg-gray-400 w-full  max-w-2xl   rounded items-center absolute justify-center  left-1  md:left-12 lg:left-1/3  ">
         <div className="flex justify-evenly">
           <div className="hover:cursor-pointer hover:text-red-400 transition duration-200">
             <Link to={"/dashboard/"}>Home</Link>
@@ -27,8 +28,14 @@ const DashboardNav = () => {
             <Link to={"/dashboard/market"}>Market</Link>
           </div>
           <div className="hover:cursor-pointer hover:text-red-400 transition duration-200">
-            <Link to={"/dashboard/kpis"}>KPIs</Link>
+            <Link to={"/dashboard/kpis"}>Sales</Link>
           </div>
+          {
+            isadmin && <div className="hover:cursor-pointer hover:text-red-400 transition duration-200">
+            <Link to={"/dashboard/kpis"}>Admin</Link>
+          </div>
+          }
+          
         </div>
       </div>
     </>
