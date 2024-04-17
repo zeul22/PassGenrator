@@ -33,7 +33,7 @@ const DashboardNav = () => {
           </div>
           {isadmin && (
             <div className="hover:cursor-pointer hover:text-red-400 transition duration-200">
-              <Link to={"/dashboard/kpis"}>Admin</Link>
+              <Link to={"/dashboard/admin"}>Admin</Link>
             </div>
           )}
         </div>

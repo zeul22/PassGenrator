@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
 import { createData, getallData } from "../controllers/dashboard.controller.js";
+import { getallUsers } from "../controllers/user.controller.js";
 
 const router = Router();
 
@@ -15,6 +16,7 @@ router.post("/analytics", verifyJWT, createData); //Work Create
 // router.post("/charts", verifyJWT, sendMessage); // All Charts
 
 router.get("/analytics/data", verifyJWT, getallData);
+router.get("/admin/users", verifyJWT, getallUsers);
 
 // // MANAGEMENT
 // router.get("/management",verifyJWT)

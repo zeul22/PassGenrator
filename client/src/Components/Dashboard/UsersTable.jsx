@@ -1,17 +1,19 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useAuth } from "../../store/auth";
 import { useTable, useSortBy, usePagination } from "react-table";
-import useGetDashboardData from "../../hooks/useGetDashboardData.js";
 import { FaArrowAltCircleDown, FaArrowAltCircleUp } from "react-icons/fa";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
+import useGetUsersData from "../../hooks/useGetUsersData.js";
 
-const DragDrop = () => {
+const UsersTable = () => {
   const [numPages, setNumPages] = useState(0);
   function convertToDateString(text) {
     try {
+      // Parse the ISO 8601 formatted string
       const dateObj = new Date(text);
 
+      // Format the date object into DD/MM/YYYY format
       const year = dateObj.getFullYear();
       const month = String(dateObj.getMonth() + 1).padStart(2, "0"); // Add leading zero for single-digit months
       const day = String(dateObj.getDate()).padStart(2, "0");
@@ -19,58 +21,53 @@ const DragDrop = () => {
       return `${day}/${month}/${year}`;
     } catch (error) {
       console.error("Error converting date:", error);
-      return "Invalid Date"; 
+      // Handle potential errors (e.g., invalid format)
+      return "Invalid Date"; // Or return a custom error message
     }
   }
   const columns = useMemo(
     () => [
       {
-        Header: "Company",
-        accessor: "company",
+        Header: "Username",
+        accessor: "username",
       },
       {
-        Header: "Amount (Rs)",
-        accessor: "amount",
+        Header: "Email",
+        accessor: "email",
       },
       {
-        Header: "Type of Work",
-        accessor: "typeofwork",
+        Header: "First Name",
+        accessor: "lname",
       },
       {
-        Header: "City",
-        accessor: "city",
+        Header: "Last Name",
+        accessor: "fname",
       },
       {
-        Header: "State",
-        accessor: "state",
-      },
-      {
-        Header: "Created at",
+        Header: "Joined at",
         accessor: (row) => {
           return row.createdAt ? convertToDateString(row.createdAt) : "No Data";
         },
       },
       {
-        Header: "Work Status",
-        accessor: "workStatus",
+        Header: "Admin State ",
+        accessor: (row) => {
+          return row.isAdmin ? "Yes" : "No";
+        },
       },
     ],
     []
   );
   const [datarender, setDatarender] = useState([]);
-  const { loading, dashboardData } = useGetDashboardData();
-
+  const { loading, usersData } = useGetUsersData();
 
   useEffect(() => {
     if (!loading) {
-      setDatarender(dashboardData);
+      setDatarender(usersData);
     }
-  }, [loading, dashboardData]);
-  
-  const data = useMemo(
-    () => (loading ? [] : dashboardData),
-    [loading, dashboardData]
-  );
+  }, [loading, usersData]);
+
+  const data = useMemo(() => (loading ? [] : usersData), [loading, usersData]);
 
   const tableInstance = useTable(
     { columns, data, initialState: { pageSize: 15 } },
@@ -122,60 +119,61 @@ const DragDrop = () => {
         ) : (
           <div className="w-full flex flex-col">
             <table
-            {...getTableProps()}
-            // ref={tableRef}
-            className="w-full flex flex-col"
-          >
-            <thead>
-              {headerGroups.map((headerGroup) => (
-                <tr
-                  className="bg-red-600  flex justify-evenly"
-                  {...headerGroup.getHeaderGroupProps()}
-                >
-                  {headerGroup.headers.map((column) => (
-                    <th
-                      className="flex p-2 text-black sm:text-sm md:text-md lg:text-xl rounded-md w-full items-center"
-                      {...column.getHeaderProps(column.getSortByToggleProps())}
-                    >
-                      {column.render("Header")}
-                      {column.isSorted && (
-                        <span className="mx-2">
-                          {column.isSortedDesc ? (
-                            <FaArrowAltCircleDown />
-                          ) : (
-                            <FaArrowAltCircleUp />
-                          )}
-                        </span>
-                      )}
-                    </th>
-                  ))}
-                </tr>
-              ))}
-            </thead>
-            <tbody className="w-full flex flex-col" {...getTableBodyProps()}>
-              {page.map((row) => {
-                prepareRow(row);
-                return (
+              {...getTableProps()}
+              // ref={tableRef}
+              className="w-full flex flex-col"
+            >
+              <thead>
+                {headerGroups.map((headerGroup) => (
                   <tr
-                    className="hover:bg-gray-300 transition-all duration-200 hover:text-black flex justify-between"
-                    {...row.getRowProps()}
+                    className="bg-red-600  flex justify-evenly"
+                    {...headerGroup.getHeaderGroupProps()}
                   >
-                    {row.cells.map((cell) => {
-                      return (
-                        <td
-                          className=" p-2  rounded-md w-full items-center"
-                          {...cell.getCellProps()}
-                        >
-                          {cell.render("Cell")}
-                        </td>
-                      );
-                    })}
+                    {headerGroup.headers.map((column) => (
+                      <th
+                        className="flex p-2 text-black sm:text-sm md:text-md lg:text-xl rounded-md w-full items-center"
+                        {...column.getHeaderProps(
+                          column.getSortByToggleProps()
+                        )}
+                      >
+                        {column.render("Header")}
+                        {column.isSorted && (
+                          <span className="mx-2">
+                            {column.isSortedDesc ? (
+                              <FaArrowAltCircleDown />
+                            ) : (
+                              <FaArrowAltCircleUp />
+                            )}
+                          </span>
+                        )}
+                      </th>
+                    ))}
                   </tr>
-                );
-              })}
-            </tbody>
-            
-          </table>
+                ))}
+              </thead>
+              <tbody className="w-full flex flex-col" {...getTableBodyProps()}>
+                {page.map((row) => {
+                  prepareRow(row);
+                  return (
+                    <tr
+                      className="hover:bg-gray-300 transition-all duration-200 hover:text-black flex justify-between"
+                      {...row.getRowProps()}
+                    >
+                      {row.cells.map((cell) => {
+                        return (
+                          <td
+                            className=" p-2  rounded-md w-full items-center"
+                            {...cell.getCellProps()}
+                          >
+                            {cell.render("Cell")}
+                          </td>
+                        );
+                      })}
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
             <div className="flex justify-center p-2 w-full">
               <button
                 className="bg-gray-600 text-white rounded-md mx-3 p-2"
@@ -210,8 +208,6 @@ const DragDrop = () => {
               </button>
             </div>
           </div>
-          
-          
         )}
       </div>
 
@@ -239,4 +235,4 @@ const DragDrop = () => {
   );
 };
 
-export default DragDrop;
+export default UsersTable;

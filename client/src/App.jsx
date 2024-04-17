@@ -17,6 +17,8 @@ import DashboardKPI from "./Components/Dashboard/DashboardKPI.jsx";
 import DashboardMarket from "./Components/Dashboard/DashboardMarket.jsx";
 import Chatapp from "./Components/ChatApp/Chatapp.jsx";
 import DragDrop from "./Components/Dashboard/DragDrop.jsx";
+import DashboardAdmin from "./Components/Dashboard/DashboardAdmin.jsx";
+
 function App() {
   return (
     <Router>
@@ -51,6 +53,7 @@ function App() {
                 <Route path="/analytics" element={<DashboardAnalyitcs />} />
                 <Route path="/market" element={<DashboardMarket />} />
                 <Route path="/kpis" element={<DashboardKPI />} />
+                <Route path="/admin" element={<DashboardAdmin />} />
               </Routes>
             </>
           }

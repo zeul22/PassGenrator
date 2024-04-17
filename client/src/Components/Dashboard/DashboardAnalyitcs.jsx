@@ -78,12 +78,12 @@ const DashboardAnalyitcs = () => {
     <>
       <div className="w-full h-screen bg-gray-800 text-white">
         <div className="p-12"></div>
-        <div className="w-full p-8 bg-gray-600 h-[780px]">
-          <div className="flex ">
-            <div className="bg-gray-800 p-2 items-center w-[720px] ">
-              <div className="flex flex-col overflow-auto h-[720px]  items-center justify-center">
-                <form className="bg-gray-900 p-12 " onSubmit={onSubmit}>
-                  <div className="mt-6">
+        <div className="w-full p-8 bg-gray-600 h-[800px]">
+          <div className="flex justify-center ">
+              <div className="flex flex-col overflow-auto h-[760px]  items-center justify-between">
+                <form className="bg-gray-900 w-[600px] rounded-xl p-6 " onSubmit={onSubmit}>
+                  <h2 className="flex justify-center text-xl">LOG NEW WORK</h2>
+                  <div className="mt-2 flex justify-between w-[450px]">
                     <label htmlFor="" className="p-2">
                       Company's Name
                     </label>
@@ -95,8 +95,8 @@ const DashboardAnalyitcs = () => {
                       placeholder="Company's Name"
                     />
                   </div>
-                  <div className="mt-6">
-                    <label htmlFor="" className="p-2">
+                  <div className="mt-6 flex justify-between w-[450px]">
+                    <label htmlFor="" className="p-2" >
                       Work Type{" "}
                     </label>
                     <input
@@ -107,7 +107,7 @@ const DashboardAnalyitcs = () => {
                       placeholder="Consultancy, Services etc."
                     />
                   </div>
-                  <div className="mt-6">
+                  <div className="mt-6 flex justify-between w-[450px]">
                     <label htmlFor="" className="p-2">
                       Amount
                     </label>
@@ -119,7 +119,7 @@ const DashboardAnalyitcs = () => {
                       placeholder="Only Enter digits"
                     />
                   </div>
-                  <div className="mt-6">
+                  <div className="mt-6 flex justify-between w-[450px]">
                     <label htmlFor="" className="p-2">
                       City
                     </label>
@@ -131,7 +131,7 @@ const DashboardAnalyitcs = () => {
                       placeholder="City"
                     />
                   </div>
-                  <div className="mt-6">
+                  <div className="mt-6 flex justify-between w-[450px]">
                     <label htmlFor="" className="p-2">
                       State{" "}
                     </label>
@@ -143,7 +143,7 @@ const DashboardAnalyitcs = () => {
                       placeholder="State"
                     />
                   </div>
-                  <div className="mt-6">
+                  <div className="mt-6 flex justify-between w-[450px]">
                     <label htmlFor="" className="p-2">
                       Pincode{" "}
                     </label>
@@ -155,7 +155,7 @@ const DashboardAnalyitcs = () => {
                       placeholder="Pincode"
                     />
                   </div>
-                  <div className="mt-6">
+                  <div className="mt-6 flex justify-between w-[450px]">
                     <label htmlFor="" className="p-2">
                       Work Status{" "}
                     </label>
@@ -167,7 +167,7 @@ const DashboardAnalyitcs = () => {
                       placeholder="WorkStatus"
                     />
                   </div>
-                  <div className="mt-6">
+                  <div className="mt-6 flex justify-between w-[450px]">
                     <label htmlFor="" className="p-2">
                       Remarks{" "}
                     </label>
@@ -180,7 +180,7 @@ const DashboardAnalyitcs = () => {
                     />
                   </div>
 
-                  <div className="mt-6 flex items-center justify-center">
+                  <div className="mt-6 flex items-center justify-center w-[450px]">
                     <button
                       type="submit"
                       className={`p-2 h-[40px] w-[140px] rounded-lg justify-center ${
@@ -195,21 +195,9 @@ const DashboardAnalyitcs = () => {
                   </div>
                 </form>
               </div>
-            </div>
-
-            <div className="w-[1000px]  bg-gray-800 mx-8 flex rounded-md justify-between items-start">
-              <div className="text-sm flex justify-between p-2 m-2 rounded-md items-center bg-red-500 w-full">
-                <div className=" flex flex-col  p-2 mx-2 ">Not Started</div>
-                <div className=" flex flex-col  p-2 mx-2 ">Started</div>
-                <div className=" flex flex-col  p-2 mx-2 ">Processing</div>
-                <div className=" flex flex-col  p-2 mx-2 ">Completed</div>
-              </div>
-            </div>
           </div>
         </div>
-          <div className="mt-6 p-6 h-screen bg-gray-800">
-            <DragDrop />
-          </div>
+          
       </div>
     </>
   );

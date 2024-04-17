@@ -58,6 +58,18 @@ const registerUser = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, createdUser, "User registered Successfully"));
 });
 
+const getallUsers = asyncHandler(async (req, res) => {
+  const id = req.user._id;
+  console.log("Request User ka ID : ", id);
+  const users = await User.find().select(
+    "-password -refreshToken -accessToken"
+  );
+  console.log(users);
+  return res
+    .status(200)
+    .json(new ApiResponse(200, users, "All details recieved successfully"));
+});
+
 const loginUser = asyncHandler(async (req, res) => {
   const { username, password } = req.body;
   const email = username;
@@ -182,4 +194,4 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
   }
 });
 
-export { registerUser, loginUser, logoutUser };
+export { registerUser, loginUser, logoutUser, getallUsers };

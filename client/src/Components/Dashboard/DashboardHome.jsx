@@ -150,8 +150,8 @@ const DashboardHome = () => {
                   className="w-full"
                 />
               </div>
-              <div className="flex rounded-md p-2 m-2 bg-gray-300 h-[300px] justify-evenly">
-                <div className="p-2 flex rounded-md m-2">
+              <div className="flex  m-2 h-[300px] justify-evenly">
+                <div className="p-2  bg-red-200 flex rounded-md m-2 w-[350px]">
                   <Line
                     data={{
                       labels: ["A", "B", "C", "D", "E", "F", "G", "H"],
@@ -166,10 +166,9 @@ const DashboardHome = () => {
                         },
                       ],
                     }}
-                    className="w-1/3"
                   />
                 </div>
-                <div className="p-2 flex rounded-md m-2">
+                <div className="p-2 mx-2 bg-red-200  flex rounded-md m-2 w-[350px]">
                   <Doughnut
                     data={{
                       labels: ["A", "B", "C"],
@@ -180,10 +179,9 @@ const DashboardHome = () => {
                         },
                       ],
                     }}
-                    className="w-1/3"
                   />
                 </div>
-                <div className="p-2 flex rounded-md m-2">
+                <div className="p-2 mx-2 bg-red-200  flex rounded-md m-2 w-[350px]">
                   <Scatter
                     options={{
                       scales: {
@@ -215,7 +213,6 @@ const DashboardHome = () => {
                         },
                       ],
                     }}
-                    className="w-1/3"
                   />
                 </div>
               </div>
