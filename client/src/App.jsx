@@ -15,7 +15,8 @@ import DashboardHome from "./Components/Dashboard/DashboardHome.jsx";
 import DashboardAnalyitcs from "./Components/Dashboard/DashboardAnalyitcs.jsx";
 import DashboardKPI from "./Components/Dashboard/DashboardKPI.jsx";
 import DashboardMarket from "./Components/Dashboard/DashboardMarket.jsx";
-import Chatapp from "./Components/ChatApp/Chatapp.jsx"
+import Chatapp from "./Components/ChatApp/Chatapp.jsx";
+import DragDrop from "./Components/Dashboard/DragDrop.jsx";
 function App() {
   return (
     <Router>
@@ -37,6 +38,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/logout" element={<Logout />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/tools" element={<DragDrop />} />
 
         {/* Dashboard */}
         <Route

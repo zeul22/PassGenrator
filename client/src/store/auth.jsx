@@ -9,6 +9,9 @@ export const AuthProvider = ({ children }) => {
   const [authUser, setauthUser] = useState(
     localStorage.getItem("authUser") || null
   );
+  const [authDetails, setauthDetails] = useState(
+    localStorage.getItem("authDetails") || null
+  );
   const storeToken = (serverToken) => {
     setToken(localStorage.getItem("accessToken"));
     return localStorage.setItem("accessToken", serverToken);
@@ -16,7 +19,6 @@ export const AuthProvider = ({ children }) => {
   const storeauthUser = (authDetails) => {
     setauthUser(localStorage.setItem("authUser"));
     return localStorage.setItem("authUser", authDetails);
-
   };
 
   let isloggedin = !!token;
@@ -26,11 +28,22 @@ export const AuthProvider = ({ children }) => {
   const logoutUser = () => {
     setToken(null);
     setauthUser(null);
+    setauthDetails(null);
   };
 
   return (
     <AuthContext.Provider
-      value={{ isloggedin, token, setToken,authUser,setauthUser, storeToken, logoutUser }}
+      value={{
+        isloggedin,
+        token,
+        setToken,
+        authUser,
+        setauthUser,
+        authDetails,
+        setauthDetails,
+        storeToken,
+        logoutUser,
+      }}
     >
       {children}
     </AuthContext.Provider>

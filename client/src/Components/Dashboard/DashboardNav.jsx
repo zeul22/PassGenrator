@@ -4,9 +4,10 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../store/auth.jsx"; //can update & use Redux here
 
 const DashboardNav = () => {
-  const { isloggedin } = useAuth();
+  const { isloggedin, authDetails } = useAuth();
   const navigate = useNavigate();
-  const isadmin=true;
+  const user = JSON.parse(authDetails);
+  const isadmin = user.user.isAdmin;
 
   useEffect(() => {
     if (!isloggedin) {
@@ -30,12 +31,11 @@ const DashboardNav = () => {
           <div className="hover:cursor-pointer hover:text-red-400 transition duration-200">
             <Link to={"/dashboard/kpis"}>Sales</Link>
           </div>
-          {
-            isadmin && <div className="hover:cursor-pointer hover:text-red-400 transition duration-200">
-            <Link to={"/dashboard/kpis"}>Admin</Link>
-          </div>
-          }
-          
+          {isadmin && (
+            <div className="hover:cursor-pointer hover:text-red-400 transition duration-200">
+              <Link to={"/dashboard/kpis"}>Admin</Link>
+            </div>
+          )}
         </div>
       </div>
     </>

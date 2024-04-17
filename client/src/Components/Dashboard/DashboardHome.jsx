@@ -5,10 +5,11 @@ const DashboardHome = () => {
   const [data, setData] = useState(null);
   const fetchData = async () => {
     try {
-      const response = await fetch(`http://localhost:8000/`);
-      const jsondata = await response.json();
-      console.log(jsondata);
-      setData(jsondata.message);
+      // const response = await fetch(`http://localhost:8080/`);
+      // const jsondata = await response.json();
+      // console.log(jsondata);
+      // setData(jsondata.message);
+      console.log("At Dashboard Home");
     } catch (error) {
       throw new ApiError("Error Fetching data: ,", error);
     }

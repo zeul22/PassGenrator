@@ -8,7 +8,7 @@ const Login = () => {
     username: "",
     password: "",
   };
-  const { token, setToken, setauthUser } = useAuth();
+  const { token, setToken, setauthUser,setauthDetails } = useAuth();
   const [data, setData] = useState(default_data);
   const [fieldsFilled, setFieldsFilled] = useState(false);
   const navigate = useNavigate();
@@ -55,28 +55,6 @@ const Login = () => {
 
     e.preventDefault();
     if (data.username != "" && data.password != "") {
-      // try {
-      //   console.log(data.username, data.password);
-
-      //   const response = await axios.post(
-      //     `${import.meta.env.VITE_APP_FETCH_URL}/users/login`,
-      //     data
-      //   );
-
-      //   console.log(response.data);
-      //   console.log(response.ok);
-      //   if (response.data) {
-      //     const res_data = await response.json();
-      //     console.log(res_data);
-      //     setData(default_data);
-      //     alert("Login Successful!");
-      //     navigate("/gen");
-      //   }
-      // } catch (error) {
-      //   alert("User does not exist!");
-      //   console.log(error);
-      // }
-
       fetch(`${import.meta.env.VITE_APP_FETCH_URL}/users/login`, fetchOptions)
         .then((response) => {
           if (!response.ok) {
@@ -89,6 +67,8 @@ const Login = () => {
           setToken(data.data.accessToken);
           setauthUser(data.data.user._id.trim());
           // alert(data.data.user._id.trim());
+          localStorage.setItem("authDetails", JSON.stringify(data.data));
+          setauthDetails(JSON.stringify(data.data))
           localStorage.setItem("accessToken", data.data.accessToken);
           localStorage.setItem("authUser", data.data.user._id.trim());
           setData(default_data);

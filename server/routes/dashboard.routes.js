@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
-import { createData } from "../controllers/dashboard.controller.js";
+import { createData, getallData } from "../controllers/dashboard.controller.js";
 
 const router = Router();
 
@@ -13,6 +13,8 @@ router.post("/analytics", verifyJWT, createData); //Work Create
 // router.get("/work/", verifyJWT, getUsers); //Total Work
 // router.post("/work/:id", verifyJWT, sendMessage); // Specific Work
 // router.post("/charts", verifyJWT, sendMessage); // All Charts
+
+router.get("/analytics/data", verifyJWT, getallData);
 
 // // MANAGEMENT
 // router.get("/management",verifyJWT)

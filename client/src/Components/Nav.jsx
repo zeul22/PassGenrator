@@ -37,6 +37,8 @@ const Nav = () => {
                     setauthUser(null);
                     localStorage.removeItem("accessToken");
                     localStorage.removeItem("authUser");
+                    localStorage.removeItem("authDetails");
+
                   }}
                 >
                   Logout

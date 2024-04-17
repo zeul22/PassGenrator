@@ -17,10 +17,12 @@ const createData = asyncHandler(async (req, res) => {
     salesBy,
   } = req.body;
   const userId = req.user._id;
-//   console.log(userId, company, typeofwork, city, state, pincode,workStatus, amount);
+  //   console.log(userId, company, typeofwork, city, state, pincode,workStatus, amount);
   if (
     [userId, company, typeofwork, city, state, pincode, amount].some(
-      (field) => {return !field || field === ""}
+      (field) => {
+        return !field || field === "";
+      }
     )
   ) {
     throw new ApiError(400, `All fields are required`);
@@ -57,4 +59,14 @@ const createData = asyncHandler(async (req, res) => {
   }
 });
 
-export { createData };
+const getallData = asyncHandler(async (req, res) => {
+  const dashboarddata = await DashboardData.find();
+  console.log(dashboarddata);
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(200, dashboarddata, "All details recieved successfully")
+    );
+});
+
+export { createData, getallData };
