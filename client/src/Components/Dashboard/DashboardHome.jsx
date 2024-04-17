@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from "react";
 import ApiError from "../../../../server-dashboard/utils/ApiError";
+import { Chart as ChartJS, defaults } from "chart.js/auto";
+import { Bar, Doughnut, Line, Scatter } from "react-chartjs-2";
+import { Colors } from "chart.js";
+
+ChartJS.register(Colors);
+
+defaults.maintainAspectRatio = false;
+defaults.responsive = true;
 
 const DashboardHome = () => {
   const [data, setData] = useState(null);
@@ -122,14 +130,97 @@ const DashboardHome = () => {
                   </div>
                 </div>
               </div>
-              
-              
             </div>
-            <div className="w-full bg-gray-800 mx-8 flex rounded-md items-center justify-center">
-            SHOW SOME CHARTS!
+            <div className="w-full bg-gray-800 mx-8 flex flex-col rounded-md">
+              <div className="flex rounded-md p-2 m-2 bg-gray-300 h-[300px] ">
+                <Bar
+                  data={{
+                    labels: ["A", "B", "C", "D", "E", "F", "G", "H"],
+                    datasets: [
+                      {
+                        label: "Revenue",
+                        data: [200, 300, 400, 50, 61, 415, 891, 456],
+                      },
+                      {
+                        label: "Loss",
+                        data: [20, 30, 40, 123, 45, 120, 123, 144],
+                      },
+                    ],
+                  }}
+                  className="w-full"
+                />
+              </div>
+              <div className="flex rounded-md p-2 m-2 bg-gray-300 h-[300px] justify-evenly">
+                <div className="p-2 flex rounded-md m-2">
+                  <Line
+                    data={{
+                      labels: ["A", "B", "C", "D", "E", "F", "G", "H"],
+                      datasets: [
+                        {
+                          label: "Revenue",
+                          data: [200, 300, 400, 50, 61, 415, 891, 456],
+                        },
+                        {
+                          label: "Loss",
+                          data: [20, 30, 40, 123, 45, 120, 123, 144],
+                        },
+                      ],
+                    }}
+                    className="w-1/3"
+                  />
+                </div>
+                <div className="p-2 flex rounded-md m-2">
+                  <Doughnut
+                    data={{
+                      labels: ["A", "B", "C"],
+                      datasets: [
+                        {
+                          label: "Revenue",
+                          data: [200, 300, 400],
+                        },
+                      ],
+                    }}
+                    className="w-1/3"
+                  />
+                </div>
+                <div className="p-2 flex rounded-md m-2">
+                  <Scatter
+                    options={{
+                      scales: {
+                        x: {
+                          title: "X-axis Label", // Optional: Set X-axis label
+                        },
+                        y: {
+                          title: "Y-axis Label", // Optional: Set Y-axis label
+                        },
+                      },
+                    }}
+                    data={{
+                      datasets: [
+                        {
+                          label: "My Dataset",
+                          data: [
+                            { x: 10, y: 5 },
+                            { x: 15, y: 30 },
+                            { x: 20, y: 5 },
+                            { x: 12, y: 51 },
+                            { x: 16, y: 10 },
+                            { x: 25, y: 47 },
+                            { x: 79, y: 61 },
+                            { x: 17, y: 7 },
+                            { x: 29, y: 41 },
+                          ],
+                          backgroundColor: "rgba(255, 99, 132, 0.2)", // Optional: Set background color
+                          borderColor: "rgba(255, 99, 132, 1)", // Optional: Set border color
+                        },
+                      ],
+                    }}
+                    className="w-1/3"
+                  />
+                </div>
+              </div>
+            </div>
           </div>
-          </div>
-          
         </div>
         {data}
       </div>

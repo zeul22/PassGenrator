@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useAuth } from "../../store/auth";
 import axios from "axios";
+import DragDrop from "./DragDrop";
 
 const DashboardAnalyitcs = () => {
   const defaultContactFormData = {
@@ -206,6 +207,9 @@ const DashboardAnalyitcs = () => {
             </div>
           </div>
         </div>
+          <div className="mt-6 p-6 h-screen bg-gray-800">
+            <DragDrop />
+          </div>
       </div>
     </>
   );
