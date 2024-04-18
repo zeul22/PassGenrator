@@ -1,92 +1,45 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { useAuth } from "../../store/auth";
 import { useTable, useSortBy, usePagination } from "react-table";
 import { FaArrowAltCircleDown, FaArrowAltCircleUp } from "react-icons/fa";
-import html2canvas from "html2canvas";
-import jsPDF from "jspdf";
-import useGetUsersData from "../../hooks/useGetUsersData.js";
+import useGetDashboardData from "../../hooks/useGetDashboardData.js";
 
-const UsersTable = () => {
-  const [numPages, setNumPages] = useState(0);
-  function convertToDateString(text) {
-    try {
-      // Parse the ISO 8601 formatted string
-      const dateObj = new Date(text);
-
-      // Format the date object into DD/MM/YYYY format
-      const year = dateObj.getFullYear();
-      const month = String(dateObj.getMonth() + 1).padStart(2, "0"); // Add leading zero for single-digit months
-      const day = String(dateObj.getDate()).padStart(2, "0");
-
-      return `${day}/${month}/${year}`;
-    } catch (error) {
-      console.error("Error converting date:", error);
-      // Handle potential errors (e.g., invalid format)
-      return "Invalid Date"; // Or return a custom error message
-    }
-  }
+const Associations = () => {
   const columns = useMemo(
     () => [
       {
-        Header: "Username",
-        accessor: "username",
+        Header: "Company",
+        accessor: "company",
       },
       {
-        Header: "Email",
-        accessor: "email",
+        Header: "Amount (Rs)",
+        accessor: "amount",
       },
       {
-        Header: "First Name",
-        accessor: "lname",
-      },
-      {
-        Header: "Last Name",
-        accessor: "fname",
-      },
-      {
-        Header: "Joined at",
-        accessor: (row) => {
-          return row.createdAt ? convertToDateString(row.createdAt) : "No Data";
-        },
-      },
-      {
-        Header: "Admin State ",
-        accessor: (row) => {
-          return row.isAdmin ? "Yes" : "No";
-        },
-      },
-      {
-        Header: "Permissions",
-        accessor: (row) => {
-          // Edit the Work Status
-          console.log(row._id);
-          return (
-            <>
-              <button className="bg-red-600 p-2 rounded-md">Change</button>
-            </>
-          );
-        },
+        Header: "Type of Work",
+        accessor: "typeofwork",
       },
     ],
     []
   );
   const [datarender, setDatarender] = useState([]);
-  const { loading, usersData } = useGetUsersData();
+  const { loading, dashboardData } = useGetDashboardData();
 
   useEffect(() => {
     if (!loading) {
-      setDatarender(usersData);
+      setDatarender(dashboardData);
     }
-  }, [loading, usersData]);
+  }, [loading, dashboardData]);
 
-  const data = useMemo(() => (loading ? [] : usersData), [loading, usersData]);
+  const data = useMemo(
+    () => (loading ? [] : dashboardData),
+    [loading, dashboardData]
+  );
 
   const tableInstance = useTable(
-    { columns, data, initialState: { pageSize: 15 } },
+    { columns, data, initialState: { pageSize: 5 } },
     useSortBy,
     usePagination
   );
-
   const {
     getTableProps,
     getTableBodyProps,
@@ -101,28 +54,6 @@ const UsersTable = () => {
     pageCount,
     gotoPage,
   } = tableInstance;
-
-  // const tableRef = useRef(null);
-
-  // const handleExportToPDF = () => {
-  //   html2canvas(tableRef.current).then((canvas) => {
-  //     const imgData = canvas.toDataURL("image/png");
-  //     const pdf = new jsPDF();
-  //     const ratio = canvas.width / canvas.height;
-  //     const width = pdf.internal.pageSize.getWidth();
-  //     const height = width / ratio;
-  //     const numPagesToPrint = numPages
-  //       ? Math.min(numPages, pageCount)
-  //       : pageCount;
-  //     for (let i = 0; i < numPagesToPrint; i++) {
-  //       if (i > 0) {
-  //         pdf.addPage();
-  //       }
-  //       pdf.addImage(imgData, "PNG", 0, 0, width, height);
-  //     }
-  //     pdf.save(`data_1_${numPages}.pdf`);
-  //   });
-  // };
   return (
     <div>
       <div className="bg-gray-600 rounded-md text-white items-center flex justify-center">
@@ -225,26 +156,26 @@ const UsersTable = () => {
 
       {/* Export the data */}
       {/* <div className="flex items-center justify-center bg-gray-800 p-2">
-        <div>
-          <input
-            type="number"
-            placeholder="Number of Pages"
-            className="p-2 bg-gray-600 rounded-md text-white border-none outline-none  w-[80px]"
-            min={0}
-            max={pageCount}
-            value={numPages}
-            onChange={(e) => setNumPages(e.target.value)}
-          />
-        </div>
-        <button
-          className="bg-green-600 text-white p-2 mx-3 rounded-md"
-          onClick={handleExportToPDF}
-        >
-          Export to PDF
-        </button>
-      </div> */}
+    <div>
+      <input
+        type="number"
+        placeholder="Number of Pages"
+        className="p-2 bg-gray-600 rounded-md text-white border-none outline-none  w-[80px]"
+        min={0}
+        max={pageCount}
+        value={numPages}
+        onChange={(e) => setNumPages(e.target.value)}
+      />
+    </div>
+    <button
+      className="bg-green-600 text-white p-2 mx-3 rounded-md"
+      onClick={handleExportToPDF}
+    >
+      Export to PDF
+    </button>
+  </div> */}
     </div>
   );
 };
 
-export default UsersTable;
+export default Associations;

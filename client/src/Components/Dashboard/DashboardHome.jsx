@@ -3,6 +3,8 @@ import ApiError from "../../../../server-dashboard/utils/ApiError";
 import { Chart as ChartJS, defaults } from "chart.js/auto";
 import { Bar, Doughnut, Line, Scatter } from "react-chartjs-2";
 import { Colors } from "chart.js";
+import useGetDashboardData from "../../hooks/useGetDashboardData";
+import { useAuth } from "../../store/auth";
 
 ChartJS.register(Colors);
 
@@ -11,21 +13,72 @@ defaults.responsive = true;
 
 const DashboardHome = () => {
   const [data, setData] = useState(null);
-  const fetchData = async () => {
-    try {
-      // const response = await fetch(`http://localhost:8080/`);
-      // const jsondata = await response.json();
-      // console.log(jsondata);
-      // setData(jsondata.message);
-      console.log("At Dashboard Home");
-    } catch (error) {
-      throw new ApiError("Error Fetching data: ,", error);
-    }
-  };
-
+  const { loading, dashboardData } = useGetDashboardData();
+  const [ccount, setccount] = useState(0);
+  const [totalsale, settotalsale] = useState(0);
+  const [amr, setamr] = useState(0);
+  const [loc, setloc] = useState(0);
+  const [states, setstates] = useState(0);
+  const [companies, setcompanies] = useState(0);
+  const [work, setwork] = useState(0);
+  const { authDetails } = useAuth();
+  const user = JSON.parse(authDetails);
   useEffect(() => {
-    fetchData();
-  }, []);
+    let paymentDoneCount = 0;
+    let totalamount = 0;
+    const monthlyAmounts = {};
+    const uniqueLocations = new Set();
+    const uniqueStates = new Set();
+    const uniqueCompanies = new Set();
+    const uniquework = new Set();
+    dashboardData.forEach((entry) => {
+      if (entry.workStatus === "Payment Done") {
+        paymentDoneCount++;
+      }
+      totalamount += entry.amount;
+
+      const createdAtDate = new Date(entry.createdAt);
+      const monthYear = createdAtDate.toLocaleString("en-US", {
+        month: "short",
+        year: "numeric",
+      });
+      if (!monthlyAmounts[monthYear]) {
+        monthlyAmounts[monthYear] = {
+          totalAmount: 0,
+          count: 0,
+        };
+      }
+      monthlyAmounts[monthYear].totalAmount += entry.amount;
+      monthlyAmounts[monthYear].count++;
+
+      const location = `${entry.city}, ${entry.city}`;
+      uniqueLocations.add(location);
+      const state = `${entry.state}`;
+      uniqueStates.add(state);
+      const company = `${entry.company}`;
+      // console.log(entry.company);
+      uniqueCompanies.add(company);
+      const work = `${entry.typeofwork}`;
+      uniquework.add(work);
+    });
+    let totalMonthlyAmount = 0;
+    let totalMonths = 0;
+
+    for (const monthYear in monthlyAmounts) {
+      totalMonthlyAmount += monthlyAmounts[monthYear].totalAmount;
+      totalMonths++;
+    }
+
+    const averageMonthlyAmount = totalMonthlyAmount / totalMonths;
+    setwork(uniquework.size)
+    setamr(averageMonthlyAmount);
+    setccount(paymentDoneCount);
+    settotalsale(totalamount);
+    setloc(uniqueLocations.size);
+    setstates(uniqueStates.size);
+    setcompanies(uniqueCompanies.size);
+
+  }, [dashboardData]);
 
   return (
     <>
@@ -37,11 +90,22 @@ const DashboardHome = () => {
               <div className="flex">
                 <div className="flex w-full max-w-[220px] bg-gray-800 h-[250px] mb-6 rounded-lg justify-center ">
                   <div className="flex flex-col items-center  justify-center">
-                    <div className="bg-red-600 p-2 rounded-full  h-[80px] w-[80px]">
-                      <img src="" alt="profile picture" />
+                    <div className=" p-2 rounded-full  h-[80px] w-[80px]">
+                      <img
+                        src={` ${
+                          user.user.avatar
+                            ? ""
+                            : "https://www.w3schools.com/howto/img_avatar.png"
+                        } `}
+                        alt="profile picture"
+                      />
                     </div>
-                    <div className="mt-2">PROFILE NAME</div>
-                    <div className="mt-2 text-sm">DESIGNATION</div>
+                    <div className="mt-2">
+                      {user.user.lname} {user.user.fname}
+                    </div>
+                    <div className="mt-2 text-sm">
+                      Username: {user.user.username}
+                    </div>
                   </div>
                 </div>
                 <div className="flex  w-[500px]max-w-full bg-gray-800 h-[250px] mb-6 mx-3 rounded-lg sm:justify-center md:justify-cneter lg:justify-start  ">
@@ -52,8 +116,36 @@ const DashboardHome = () => {
                     <div className="mt-2 sm:text-sm lg:text-lg bg-red-600 p-2 rounded-2xl ">
                       REQUEST FOR LEAVE
                     </div>
+                    { !user.user.isAdmin && 
                     <div className="mt-2 sm:text-sm lg:text-lg bg-red-600 p-2 rounded-2xl">
                       CONTACT SUPERVISOR
+                    </div>}
+                    
+                  </div>
+                </div>
+              </div>
+
+              <div className="mb-4 w-[500px]">
+                <div className="bg-gray-300 text-black p-1 mb-3 rounded-md">
+                  WORK
+                </div>
+                <div className="flex items-center justify-evenly">
+                  <div className="flex flex-col items-center mx-3 bg-gray-800 p-4 rounded-md w-[120px]">
+                    <div className="text-sm">Total Work</div>
+                    <div className="text-[13px]">{dashboardData.length}</div>
+                  </div>
+                  <div>
+                    <div className="flex flex-col items-center mx-3 bg-gray-800 p-4 rounded-md w-[120px]">
+                      <div className="text-sm">Completion</div>
+                      <div className="text-[13px]">{ccount}</div>
+                    </div>
+                  </div>
+                  <div>
+                    <div className="flex flex-col items-center mx-3 bg-gray-800 p-4 rounded-md w-[120px]">
+                      <div className="text-sm">Pending</div>
+                      <div className="text-[13px]">
+                        {dashboardData.length - ccount}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -65,43 +157,19 @@ const DashboardHome = () => {
                 </div>
                 <div className="flex items-center justify-evenly">
                   <div className="flex flex-col items-center mx-3 bg-gray-800 p-4 rounded-md w-[120px]">
-                    <div className="text-sm">Title</div>
-                    <div className="text-[13px]">Number %</div>
+                    <div className="text-[13px]">Total Revenue</div>
+                    <div className="text-[13px]">Rs{totalsale}</div>
                   </div>
                   <div>
                     <div className="flex flex-col items-center mx-3 bg-gray-800 p-4 rounded-md w-[120px]">
-                      <div className="text-sm">Title</div>
-                      <div className="text-[13px]">Number %</div>
+                      <div className="text-sm">AMR</div>
+                      <div className="text-[13px]">{amr}</div>
                     </div>
                   </div>
                   <div>
                     <div className="flex flex-col items-center mx-3 bg-gray-800 p-4 rounded-md w-[120px]">
-                      <div className="text-sm">Title</div>
-                      <div className="text-[13px]">Number %</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="mb-4 w-[500px]">
-                <div className="bg-gray-300 text-black p-1 mb-3 rounded-md">
-                  MANAGEMENT
-                </div>
-                <div className="flex items-center justify-evenly">
-                  <div className="flex flex-col items-center mx-3 bg-gray-800 p-4 rounded-md w-[120px]">
-                    <div className="text-sm">Title</div>
-                    <div className="text-[13px]">Number %</div>
-                  </div>
-                  <div>
-                    <div className="flex flex-col items-center mx-3 bg-gray-800 p-4 rounded-md w-[120px]">
-                      <div className="text-sm">Title</div>
-                      <div className="text-[13px]">Number %</div>
-                    </div>
-                  </div>
-                  <div>
-                    <div className="flex flex-col items-center mx-3 bg-gray-800 p-4 rounded-md w-[120px]">
-                      <div className="text-sm">Title</div>
-                      <div className="text-[13px]">Number %</div>
+                      <div className="text-sm">Expansion</div>
+                      <div className="text-[13px]">{loc}</div>
                     </div>
                   </div>
                 </div>
@@ -113,19 +181,19 @@ const DashboardHome = () => {
                 </div>
                 <div className="flex items-center justify-evenly">
                   <div className="flex flex-col items-center mx-3 bg-gray-800 p-4 rounded-md w-[120px]">
-                    <div className="text-sm">Title</div>
-                    <div className="text-[13px]">Number %</div>
+                    <div className="text-sm">States</div>
+                    <div className="text-[13px]">{states}</div>
                   </div>
                   <div>
                     <div className="flex flex-col items-center mx-3 bg-gray-800 p-4 rounded-md w-[120px]">
-                      <div className="text-sm">Title</div>
-                      <div className="text-[13px]">Number %</div>
+                      <div className="text-sm">Companies</div>
+                      <div className="text-[13px]">{companies}</div>
                     </div>
                   </div>
                   <div>
                     <div className="flex flex-col items-center mx-3 bg-gray-800 p-4 rounded-md w-[120px]">
-                      <div className="text-sm">Title</div>
-                      <div className="text-[13px]">Number %</div>
+                      <div className="text-sm">Types</div>
+                      <div className="text-[13px]">{work}</div>
                     </div>
                   </div>
                 </div>

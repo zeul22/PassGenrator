@@ -4,6 +4,7 @@ import { Bar, Doughnut, Line, Scatter } from "react-chartjs-2";
 
 import { Chart as ChartJS, defaults } from "chart.js/auto";
 import { Colors } from "chart.js";
+import Associations from "./Associations.jsx";
 
 ChartJS.register(Colors);
 
@@ -18,7 +19,7 @@ const DashboardMarket = () => {
           <DragDrop />
         </div>
       </div>
-      <div className="h-screen bg-gray-800">
+      <div className="h-auto bg-gray-800">
         <div className="flex justify-center text-3xl p-2 bg-gray-300 ">
           METRICS
         </div>
@@ -84,10 +85,13 @@ const DashboardMarket = () => {
         </div>
         <div className="flex justify-between">
           <div className="w-1/2 bg-gray-500 mx-2 mt-6 p-2 rounded-md text-xl">
-            Top Associations
+          Top Associations
+          <Associations />
           </div>
+
           <div className="w-1/2 bg-gray-500 mx-2 mt-6 p-2 rounded-md text-xl">
             Worst Associations
+          <Associations />
           </div>
         </div>
 
@@ -95,7 +99,7 @@ const DashboardMarket = () => {
           WORK METRICS
         </div>
 
-        <div className="flex justify-evenly text-white">
+        <div className="flex justify-evenly text-white pb-6">
           <div className="h-[200px] w-[200px] bg-gray-500 mx-2 mt-6 p-2 rounded-full text-xl">
           Total Work
           </div>
